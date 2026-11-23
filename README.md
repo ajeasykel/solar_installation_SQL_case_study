@@ -216,3 +216,8 @@ These are illustrative, because the data is synthetic.
 - **Collection rates by plan are partly a timing effect.** The "collected as % of contract" figure in Q4 is lower for long plans partly because many of their instalments are not yet due. Q5 separates what is actually overdue.
 - **An earlier version of Q5 misled.** The first draft measured days from installation to full payment, which just reproduced the plan lengths (about 185, 369, 553 and 730 days), because only fully paid contracts could be counted. It was redesigned around matured contracts and days relative to the final due date.
 - **Dates are hard-coded.** The as-of date (31 October 2026) and the calendar start dates are literals in the queries. A production version would take them as a variable or parameter.
+
+- How to run it
+
+You need SQL Server 2016 or later and SSMS. Connect to your server (tick Trust server certificate if you get a certificate error). 
+Run 01_create_schema.sql, 02_load_reference_data.sql, 03_load_customers_leads.sql, 04_load_installations_payments.sql and 05_load_generation_tickets.sql in that order, then 06_verify_load.sql (every row should say PASS). Then run the q1 to q5 files against the SunGridNigeria database.
