@@ -88,7 +88,7 @@ erDiagram
 
 ## Q2. Is volume growing?
 
-![Monthly trend](images/q2_monthly_trend.png)
+![Monthly trend](sql_images/q2_table_preview.png)
 
 **How the SQL works**
 - Window functions on top of the month calendar: `LAG` for month-over-month percentage change, a running `SUM` for cumulative capacity, and an `AVG` over a three-row `ROWS` frame for the moving average. The moving average stays NULL until three months exist.
@@ -105,7 +105,7 @@ erDiagram
 
 ## Q3. Zone, state and system type
 
-![Zone, state and system type](images/q3_zone_state_system_type.png)
+![Zone, state and system type](sql_images/q3_table_preview.png)
 
 **How the SQL works**
 - `GROUP BY GROUPING SETS` produces detail rows, state subtotals, zone subtotals, system-type totals and a grand total in a single query.
@@ -134,7 +134,7 @@ erDiagram
 
 ## Q4. Financials by segment and financing plan
 
-![Financials by segment and plan](images/q4_financials_segment_plan.png)
+![Financials by segment and plan](sql_images/q4_table_preview.png)
 
 **How the SQL works**
 - Payments are pre-aggregated per installation in a CTE before being joined, so contract values are not multiplied by the number of payments. This is the most common source of wrong totals in finance queries.
@@ -163,8 +163,7 @@ erDiagram
 
 ## Q5. Collections: overdue ageing and payment completion
 
-![Overdue ageing](images/q5a_overdue_ageing.png)
-![Payment completion](images/q5b_payment_completion.png)
+![Overdue ageing & Payment completion](sql_images/q5_table_preview.png)
 
 **How the SQL works**
 - **Ageing:** payments are totalled per scheduled instalment and compared with the amount due, so part-payments are handled. `DATEDIFF` and a `CASE` assign each overdue instalment to a 1-30, 31-60, 61-90 or 91+ day bucket.
@@ -216,7 +215,9 @@ These are illustrative, because the data is synthetic.
 - **An earlier version of Q5 misled.** The first draft measured days from installation to full payment, which just reproduced the plan lengths (about 185, 369, 553 and 730 days), because only fully paid contracts could be counted. It was redesigned around matured contracts and days relative to the final due date.
 - **Dates are hard-coded.** The as-of date (31 October 2026) and the calendar start dates are literals in the queries. A production version would take them as a variable or parameter.
 
-- How to run it
+---
+
+## How to run it
 
 You need SQL Server 2016 or later and SSMS. Connect to your server (tick Trust server certificate if you get a certificate error). 
 Run 01_create_schema.sql, 02_load_reference_data.sql, 03_load_customers_leads.sql, 04_load_installations_payments.sql and 05_load_generation_tickets.sql in that order, then 06_verify_load.sql (every row should say PASS). Then run the q1 to q5 files against the SunGridNigeria database.
