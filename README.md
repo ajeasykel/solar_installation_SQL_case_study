@@ -70,8 +70,7 @@ erDiagram
 
 ## Q1. Installations per month and per week
 
-![Monthly installations](images/q1_monthly_installations.png)
-![Weekly installations](images/q1_weekly_installations.png)
+![Monthly & Weekly installations](images/q1_table_preview.png)
 
 **How the SQL works**
 - Recursive CTEs build a month calendar and a week calendar, which are left-joined to the installations so that a period with no installs would still appear as zero.
